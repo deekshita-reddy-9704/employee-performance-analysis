@@ -1,0 +1,59 @@
+# employee_analysis.py
+# Author: Deekshita Reddy D T
+# Email: 22f3000075@ds.study.iitm.ac.in
+# Project: Employee Performance Analysis
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Create a sample dataset
+data = {
+    "Employee_ID": range(1, 101),
+    "Department": [
+        "Finance", "HR", "IT", "Marketing", "Operations"
+    ] * 20,
+    "Region": [
+        "North", "South", "East", "West", "Central"
+    ] * 20,
+    "Performance_Score": [x % 10 + 1 for x in range(100)]
+}
+
+# Step 2: Convert to DataFrame
+df = pd.DataFrame(data)
+
+# Step 3: Frequency count for Finance department
+finance_count = (df["Department"] == "Finance").sum()
+print("Frequency count for Finance department:", finance_count)
+
+# Step 4: Plot histogram of department distribution
+plt.figure(figsize=(8, 6))
+sns.countplot(x="Department", data=df, palette="viridis")
+plt.title("Distribution of Employees by Department")
+plt.xlabel("Department")
+plt.ylabel("Number of Employees")
+plt.tight_layout()
+
+# Step 5: Save visualization as HTML
+html_content = """
+<html>
+<head>
+<title>Employee Performance Analysis</title>
+</head>
+<body>
+<h2>Employee Department Distribution</h2>
+<p><b>Frequency count for Finance department:</b> {}</p>
+<img src="department_distribution.png" alt="Histogram" style="width:600px;">
+<p>Created by: Deekshita Reddy D T (22f3000075@ds.study.iitm.ac.in)</p>
+</body>
+</html>
+""".format(finance_count)
+
+# Save the plot as an image
+plt.savefig("department_distribution.png")
+
+# Write HTML file
+with open("employee_performance.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("HTML file 'employee_performance.html' created successfully!")
