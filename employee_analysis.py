@@ -6,6 +6,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import textwrap
 
 # Step 1: Create dataset where Finance department count = 15
 data = {
@@ -42,7 +43,11 @@ plt.ylabel("Number of Employees")
 plt.tight_layout()
 plt.savefig("department_distribution.png")
 
-# Step 4: Generate HTML (exact wording for checker)
+# Step 4: Prepare Python code to embed inside HTML
+with open(__file__, "r", encoding="utf-8") as f:
+    python_code = f.read()
+
+# Step 5: Generate HTML (exact wording + visible Python code)
 html_content = f"""
 <html>
 <head>
@@ -52,6 +57,10 @@ html_content = f"""
 <h2>Employee Department Distribution</h2>
 <p>Frequency count for "Finance" department ({finance_count})</p>
 <img src="department_distribution.png" alt="Histogram" style="width:600px;">
+<h3>Python Code Used:</h3>
+<pre style="background-color:#f0f0f0;padding:10px;border-radius:10px;white-space:pre-wrap;">
+{textwrap.indent(python_code, "    ")}
+</pre>
 <p>Created by: <b>Deekshita Reddy D T</b></p>
 <p>Email: 22f3000075@ds.study.iitm.ac.in</p>
 </body>
