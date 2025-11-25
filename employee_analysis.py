@@ -6,32 +6,37 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
-# Step 1: Create a sample dataset
-data = {
-    "Employee_ID": range(1, 101),
-    "Department": ["Finance", "HR", "IT", "Marketing", "Operations"] * 20,
-    "Region": ["North", "South", "East", "West", "Central"] * 20,
-    "Performance_Score": [x % 10 + 1 for x in range(100)]
-}
+# Step 1: Load or create dataset
+# (If a dataset file exists, load it; otherwise create sample data)
+if os.path.exists("employee_data.csv"):
+    df = pd.read_csv("employee_data.csv")
+else:
+    data = {
+        "Employee_ID": range(1, 101),
+        "Department": ["Finance", "HR", "IT", "Marketing", "Operations"] * 20,
+        "Region": ["North", "South", "East", "West", "Central"] * 20,
+        "Performance_Score": [x % 10 + 1 for x in range(100)]
+    }
+    df = pd.DataFrame(data)
 
-# Step 2: Convert to DataFrame
-df = pd.DataFrame(data)
-
-# Step 3: Frequency count for Finance department
+# Step 2: Frequency count for Finance department
 finance_count = (df["Department"] == "Finance").sum()
-print("Frequency count for Finance department:", finance_count)
+print(f'Frequency count for "Finance" department: {finance_count}')
 
-# Step 4: Plot histogram of department distribution
+# Step 3: Plot histogram of department distribution
 plt.figure(figsize=(8, 6))
 sns.countplot(x="Department", data=df, hue="Department", legend=False, palette="viridis")
 plt.title("Distribution of Employees by Department")
 plt.xlabel("Department")
 plt.ylabel("Number of Employees")
 plt.tight_layout()
+
+# Save the histogram image
 plt.savefig("department_distribution.png")
 
-# Step 5: Save visualization as HTML
+# Step 4: Save results into HTML file
 html_content = f"""
 <html>
 <head>
@@ -39,7 +44,7 @@ html_content = f"""
 </head>
 <body>
 <h2>Employee Department Distribution</h2>
-<p><strong>Frequency count for "Finance" department: {finance_count}</strong></p>
+<p><strong>Frequency count for "Finance" department ({finance_count}) was found successfully.</strong></p>
 <img src="department_distribution.png" alt="Histogram" style="width:600px;">
 <p>Created by: <b>Deekshita Reddy D T</b></p>
 <p>Email: 22f3000075@ds.study.iitm.ac.in</p>
@@ -47,8 +52,8 @@ html_content = f"""
 </html>
 """
 
-# Write HTML file
+# Write HTML output
 with open("employee_performance.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
-print("HTML file 'employee_performance.html' created successfully!")
+print("✅ HTML file 'employee_performance.html' created successfully!")
